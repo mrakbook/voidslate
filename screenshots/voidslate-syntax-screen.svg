@@ -1,0 +1,256 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1448" height="1086" viewBox="0 0 1448 1086">
+  <defs>
+    <style>
+      .ui { font-family: Inter, "SF Pro Text", "Segoe UI", Arial, sans-serif; }
+      .mono { font-family: "Fira Code", "SFMono-Regular", Consolas, monospace; }
+      .small { font-size: 15px; }
+      .body { font-size: 18px; }
+      .code { font-size: 20px; font-weight: 600; }
+      .title { font-size: 17px; font-weight: 600; }
+      .line { fill: #9B9BB8; }
+      .fg { fill: #F8F7FF; }
+      .muted { fill: #6DFCE8; }
+      .dim { fill: #696975; }
+      .kw { fill: #FF2DAA; }
+      .str { fill: #39FF6B; }
+      .fn { fill: #00E5FF; }
+      .type { fill: #B78CFF; }
+      .param { fill: #FF8CFF; }
+      .num { fill: #FFF75E; }
+      .prop { fill: #7CFFC4; }
+      .punct { fill: #E9DEFF; }
+      .orange { fill: #FFB86B; }
+      .border { stroke: #141414; stroke-width: 1; }
+    </style>
+  </defs>
+
+  <rect width="1448" height="1086" fill="#000000"/>
+
+  <rect x="0" y="0" width="1448" height="52" fill="#000000" class="border"/>
+  <text x="68" y="33" class="ui body muted">File</text>
+  <text x="118" y="33" class="ui body muted">Edit</text>
+  <text x="174" y="33" class="ui body muted">Selection</text>
+  <text x="273" y="33" class="ui body muted">View</text>
+  <text x="335" y="33" class="ui body muted">Go</text>
+  <text x="382" y="33" class="ui body muted">Run</text>
+  <text x="433" y="33" class="ui body muted">Terminal</text>
+  <text x="530" y="33" class="ui body muted">Help</text>
+  <text x="664" y="33" class="ui body muted">&lt;-</text>
+  <text x="701" y="33" class="ui body muted">-&gt;</text>
+  <rect x="740" y="9" width="394" height="34" rx="8" fill="#050505" stroke="#242424"/>
+  <circle cx="896" cy="26" r="8" fill="none" stroke="#DADAF2" stroke-width="2"/>
+  <line x1="902" y1="32" x2="909" y2="39" stroke="#DADAF2" stroke-width="2"/>
+  <text x="918" y="31" class="ui small fg">voidslate</text>
+  <text x="1210" y="33" class="ui body muted">||</text>
+  <text x="1250" y="33" class="ui body muted">=</text>
+  <text x="1290" y="33" class="ui body muted">[]</text>
+  <text x="1374" y="33" class="ui body muted">-  []  x</text>
+
+  <rect x="0" y="52" width="70" height="968" fill="#000000" stroke="#141414"/>
+  <line x1="0" y1="126" x2="3" y2="190" stroke="#39FF6B" stroke-width="3"/>
+  <g fill="none" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M28 70h13l8 8v25H20V70h8zM41 70v9h8" stroke="#9B7CFF"/>
+    <circle cx="38" cy="158" r="13" stroke="#FF2DAA"/>
+    <line x1="29" y1="168" x2="19" y2="178" stroke="#FF2DAA"/>
+    <circle cx="28" cy="216" r="5" stroke="#39FF6B"/>
+    <circle cx="28" cy="240" r="5" stroke="#39FF6B"/>
+    <circle cx="47" cy="228" r="5" stroke="#39FF6B"/>
+    <path d="M28 221v14M33 238l10-7" stroke="#39FF6B"/>
+    <path d="M25 285v31l28-16zM25 316l-6 8M25 285l-6-8" stroke="#FFF75E"/>
+    <rect x="19" y="362" width="16" height="16" stroke="#C77DFF"/>
+    <rect x="39" y="354" width="14" height="14" stroke="#C77DFF"/>
+    <rect x="39" y="378" width="14" height="14" stroke="#C77DFF"/>
+    <circle cx="36" cy="905" r="17" stroke="#A78BFA"/>
+    <circle cx="36" cy="900" r="6" stroke="#A78BFA"/>
+    <path d="M24 918c4-8 20-8 24 0" stroke="#A78BFA"/>
+    <circle cx="36" cy="978" r="16" stroke="#F28D52"/>
+    <path d="M36 956v8M36 992v8M14 978h8M50 978h8M21 963l6 6M51 963l-6 6M21 993l6-6M51 993l-6-6" stroke="#F28D52"/>
+  </g>
+
+  <rect x="70" y="52" width="358" height="968" fill="#000000" stroke="#141414"/>
+  <text x="103" y="84" class="ui title fg">SEARCH</text>
+  <rect x="103" y="106" width="308" height="36" fill="#050505" stroke="#242424"/>
+  <text x="114" y="130" class="ui body fg">voidslate</text>
+  <text x="323" y="130" class="ui body fg">Aa</text>
+  <text x="354" y="130" class="ui body fg">ab</text>
+  <text x="392" y="130" class="ui body fg">x</text>
+  <rect x="103" y="151" width="308" height="36" fill="#050505" stroke="#242424"/>
+  <text x="114" y="175" class="ui body muted">Replace</text>
+  <text x="352" y="175" class="ui body fg">AB</text>
+  <text x="103" y="217" class="ui small muted">12 results in 5 files -</text>
+  <text x="248" y="217" class="ui small fn">Open in editor</text>
+
+  <text x="96" y="258" class="ui body fn">TS</text>
+  <text x="124" y="258" class="ui body fg">app.ts</text>
+  <text x="184" y="258" class="ui small dim">src</text>
+  <circle cx="400" cy="252" r="12" fill="none" stroke="#777777"/>
+  <text x="395" y="258" class="ui small fg">3</text>
+  <text x="113" y="289" class="mono body line">15</text>
+  <text x="143" y="289" class="mono body fg">service: </text>
+  <text x="222" y="289" class="mono body str">'voidslate'</text>
+  <text x="318" y="289" class="mono body punct">,</text>
+  <text x="113" y="321" class="mono body line">16</text>
+  <text x="143" y="321" class="mono body fg">version: env.version</text>
+  <text x="113" y="353" class="mono body line">22</text>
+  <text x="143" y="353" class="mono body fg">console.log(</text>
+  <text x="264" y="353" class="mono body orange">'ready'</text>
+  <text x="338" y="353" class="mono body fg">)</text>
+
+  <text x="96" y="412" class="ui body fn">TS</text>
+  <text x="124" y="412" class="ui body fg">server.ts</text>
+  <text x="201" y="412" class="ui small dim">src</text>
+  <circle cx="400" cy="407" r="12" fill="none" stroke="#777777"/>
+  <text x="395" y="413" class="ui small fg">3</text>
+  <text x="113" y="445" class="mono body line">8</text>
+  <text x="143" y="445" class="mono body fg">app.</text><text x="184" y="445" class="mono body fn">use</text><text x="218" y="445" class="mono body punct">(</text><text x="228" y="445" class="mono body str">'/api'</text><text x="295" y="445" class="mono body punct">, router);</text>
+  <text x="113" y="477" class="mono body line">12</text>
+  <text x="143" y="477" class="mono body fg">app.</text><text x="184" y="477" class="mono body fn">get</text><text x="217" y="477" class="mono body punct">(</text><text x="228" y="477" class="mono body str">'/'</text><text x="263" y="477" class="mono body punct">, (</text><text x="297" y="477" class="mono body param">_req</text><text x="344" y="477" class="mono body punct">, </text><text x="367" y="477" class="mono body param">res</text><text x="401" y="477" class="mono body punct">) </text><text x="429" y="477" class="mono body kw">=&gt;</text>
+  <text x="113" y="509" class="mono body line">14</text>
+  <text x="153" y="509" class="mono body prop">status</text><text x="216" y="509" class="mono body punct">: </text><text x="239" y="509" class="mono body str">'ok'</text><text x="286" y="509" class="mono body punct">,</text>
+
+  <text x="93" y="570" class="mono body num">{}</text>
+  <text x="124" y="570" class="ui body fg">package.json</text>
+  <circle cx="400" cy="565" r="12" fill="none" stroke="#777777"/>
+  <text x="395" y="571" class="ui small fg">2</text>
+  <text x="113" y="601" class="mono body line">2</text>
+  <text x="143" y="601" class="mono body fg">"name": </text><text x="222" y="601" class="mono body str">"voidslate"</text><text x="321" y="601" class="mono body punct">,</text>
+  <text x="113" y="632" class="mono body line">3</text>
+  <text x="143" y="632" class="mono body fg">"version": </text><text x="249" y="632" class="mono body str">"0.0.1"</text><text x="329" y="632" class="mono body punct">,</text>
+  <text x="96" y="696" class="ui body param">M</text>
+  <text x="124" y="696" class="ui body fg">README.md</text>
+  <circle cx="400" cy="690" r="12" fill="none" stroke="#777777"/>
+  <text x="395" y="696" class="ui small fg">2</text>
+  <text x="113" y="727" class="mono body line">1</text>
+  <text x="143" y="727" class="mono body fg"># </text><text x="160" y="727" class="mono body str">voidslate</text>
+  <text x="113" y="760" class="mono body line">5</text>
+  <text x="143" y="760" class="ui body fg">VoidSlate is a modern neon theme...</text>
+  <text x="96" y="824" class="ui body str">::</text>
+  <text x="124" y="824" class="ui body fg">.env</text>
+  <text x="113" y="855" class="mono body line">1</text>
+  <text x="143" y="855" class="mono body fg">PORT=3000</text>
+  <text x="113" y="887" class="mono body line">2</text>
+  <text x="143" y="887" class="mono body fg">NODE_ENV=development</text>
+  <text x="94" y="970" class="ui small fn">Search settings</text>
+
+  <rect x="428" y="52" width="1020" height="648" fill="#000000" stroke="#141414"/>
+  <rect x="428" y="52" width="350" height="51" fill="#050505" stroke="#141414"/>
+  <line x1="480" y1="53" x2="611" y2="53" stroke="#A8CF38" stroke-width="2"/>
+  <text x="454" y="85" class="ui body fn">TS</text>
+  <text x="483" y="85" class="ui body orange">server.ts</text>
+  <text x="589" y="85" class="ui body num">M</text>
+  <rect x="778" y="52" width="205" height="51" fill="#000000" stroke="#141414"/>
+  <text x="636" y="85" class="ui body fn">TS</text>
+  <text x="665" y="85" class="ui body fg">app.ts</text>
+  <text x="454" y="127" class="ui body muted">src  &gt;  </text>
+  <text x="515" y="127" class="ui body fn">TS</text>
+  <text x="546" y="127" class="ui body fg">server.ts  &gt; ...</text>
+
+  <g class="mono code">
+    <text x="478" y="162" class="line">1</text>
+    <text x="525" y="162"><tspan class="kw">import</tspan><tspan class="fg"> express </tspan><tspan class="kw">from</tspan><tspan class="fg"> </tspan><tspan class="str">'express'</tspan><tspan class="punct">;</tspan></text>
+    <text x="478" y="192" class="line">2</text>
+    <text x="525" y="192"><tspan class="kw">import</tspan><tspan class="fg"> { json } </tspan><tspan class="kw">from</tspan><tspan class="fg"> </tspan><tspan class="str">'express'</tspan><tspan class="punct">;</tspan></text>
+    <text x="478" y="222" class="line">3</text>
+    <text x="525" y="222"><tspan class="kw">import</tspan><tspan class="fg"> { router } </tspan><tspan class="kw">from</tspan><tspan class="fg"> </tspan><tspan class="str">'./api/router'</tspan><tspan class="punct">;</tspan></text>
+    <text x="478" y="252" class="line">4</text>
+    <text x="525" y="252"><tspan class="kw">import</tspan><tspan class="fg"> { env } </tspan><tspan class="kw">from</tspan><tspan class="fg"> </tspan><tspan class="str">'./lib/env'</tspan><tspan class="punct">;</tspan></text>
+    <text x="478" y="307" class="line">6</text>
+    <text x="525" y="307"><tspan class="kw">export</tspan><tspan class="fg"> </tspan><tspan class="kw">function</tspan><tspan class="fg"> </tspan><tspan class="fn">createServer</tspan><tspan class="punct">(</tspan><tspan class="param">app</tspan><tspan class="punct">: </tspan><tspan class="type">express.Express</tspan><tspan class="punct">) {</tspan></text>
+    <text x="478" y="337" class="line">7</text>
+    <text x="548" y="337"><tspan class="fg">app.</tspan><tspan class="fn">use</tspan><tspan class="punct">(</tspan><tspan class="fn">json</tspan><tspan class="punct">());</tspan></text>
+    <text x="478" y="367" class="line">8</text>
+    <text x="548" y="367"><tspan class="fg">app.</tspan><tspan class="fn">use</tspan><tspan class="punct">(</tspan><tspan class="str">'/api'</tspan><tspan class="punct">, router);</tspan></text>
+    <text x="478" y="422" class="line">10</text>
+    <text x="548" y="422"><tspan class="fg">app.</tspan><tspan class="fn">get</tspan><tspan class="punct">(</tspan><tspan class="str">'/'</tspan><tspan class="punct">, (</tspan><tspan class="param">_req</tspan><tspan class="punct">, </tspan><tspan class="param">res</tspan><tspan class="punct">) </tspan><tspan class="kw">=&gt;</tspan><tspan class="punct"> {</tspan></text>
+    <text x="478" y="452" class="line">11</text>
+    <text x="570" y="452"><tspan class="fg">res.</tspan><tspan class="fn">json</tspan><tspan class="punct">({</tspan></text>
+    <text x="478" y="482" class="line">12</text>
+    <text x="592" y="482"><tspan class="prop">status</tspan><tspan class="punct">: </tspan><tspan class="str">'ok'</tspan><tspan class="punct">,</tspan></text>
+    <text x="478" y="512" class="line">13</text>
+    <text x="592" y="512"><tspan class="prop">service</tspan><tspan class="punct">: </tspan><tspan class="str">'voidslate'</tspan><tspan class="punct">,</tspan></text>
+    <text x="478" y="542" class="line">14</text>
+    <text x="592" y="542"><tspan class="prop">version</tspan><tspan class="punct">: env.</tspan><tspan class="prop">npm_package_version</tspan><tspan class="punct">,</tspan></text>
+    <text x="478" y="572" class="line">15</text>
+    <text x="592" y="572"><tspan class="prop">uptime</tspan><tspan class="punct">: process.</tspan><tspan class="fn">uptime</tspan><tspan class="punct">(),</tspan></text>
+    <text x="478" y="602" class="line">16</text>
+    <text x="570" y="602" class="punct">});</text>
+    <text x="478" y="632" class="line">17</text>
+    <text x="548" y="632" class="punct">});</text>
+    <text x="478" y="662" class="line">19</text>
+    <text x="548" y="662"><tspan class="kw">return</tspan><tspan class="fg"> app</tspan><tspan class="punct">;</tspan></text>
+  </g>
+
+  <g transform="translate(1325 138)">
+    <rect x="0" y="0" width="84" height="96" fill="#050505" stroke="#141414"/>
+    <line x1="3" y1="2" x2="3" y2="96" stroke="#39FF6B" stroke-width="2"/>
+    <g stroke-width="2">
+      <line x1="10" y1="8" x2="38" y2="8" stroke="#FF2DAA"/>
+      <line x1="44" y1="8" x2="70" y2="8" stroke="#39FF6B"/>
+      <line x1="10" y1="18" x2="28" y2="18" stroke="#00E5FF"/>
+      <line x1="34" y1="18" x2="76" y2="18" stroke="#FFF75E"/>
+      <line x1="10" y1="28" x2="62" y2="28" stroke="#B78CFF"/>
+      <line x1="10" y1="38" x2="40" y2="38" stroke="#39FF6B"/>
+      <line x1="48" y1="38" x2="78" y2="38" stroke="#FF2DAA"/>
+      <line x1="10" y1="48" x2="70" y2="48" stroke="#FF8CFF"/>
+      <line x1="10" y1="58" x2="44" y2="58" stroke="#00E5FF"/>
+      <line x1="50" y1="58" x2="76" y2="58" stroke="#39FF6B"/>
+      <line x1="10" y1="68" x2="32" y2="68" stroke="#FFF75E"/>
+      <line x1="38" y1="68" x2="78" y2="68" stroke="#7CFFC4"/>
+      <line x1="10" y1="78" x2="64" y2="78" stroke="#FF2DAA"/>
+      <line x1="10" y1="88" x2="78" y2="88" stroke="#00E5FF"/>
+    </g>
+  </g>
+
+  <rect x="428" y="700" width="1020" height="320" fill="#000000" stroke="#141414"/>
+  <line x1="428" y1="746" x2="1448" y2="746" stroke="#141414"/>
+  <text x="456" y="731" class="ui body fg">PROBLEMS</text>
+  <text x="566" y="731" class="ui body fg">OUTPUT</text>
+  <text x="657" y="731" class="ui body fg">TERMINAL</text>
+  <text x="763" y="731" class="ui body fg">PORTS</text>
+  <line x1="657" y1="744" x2="732" y2="744" stroke="#E9DE5E" stroke-width="2"/>
+  <rect x="452" y="758" width="18" height="18" rx="3" fill="#0B120B" stroke="#39FF6B"/>
+  <text x="483" y="774" class="ui body str">zsh</text>
+  <circle cx="578" cy="767" r="6" fill="#39FF6B"/>
+  <line x1="598" y1="746" x2="598" y2="788" stroke="#141414"/>
+  <text x="610" y="774" class="ui body str">node server.ts</text>
+  <circle cx="765" cy="767" r="6" fill="#E9DE5E"/>
+  <line x1="785" y1="746" x2="785" y2="788" stroke="#141414"/>
+  <text x="797" y="774" class="ui body fg">npm run dev</text>
+  <circle cx="942" cy="767" r="6" fill="#FF2DAA"/>
+  <text x="452" y="821" class="mono body str">-&gt;</text>
+  <text x="483" y="821" class="mono body fn">voidslate</text>
+  <text x="584" y="821" class="mono body kw">git:</text>
+  <text x="625" y="821" class="mono body str">(main)</text>
+  <text x="690" y="821" class="mono body num">x</text>
+  <text x="723" y="821" class="mono body str">npm</text>
+  <text x="763" y="821" class="mono body kw">run</text>
+  <text x="806" y="821" class="mono body fn">dev</text>
+  <text x="452" y="862" class="mono body fg">&gt; voidslate@0.0.1 dev</text>
+  <text x="452" y="890" class="mono body fg">&gt; tsx watch src/server.ts</text>
+  <text x="452" y="933" class="mono body str">watching for changes...</text>
+  <text x="452" y="961" class="mono body fn">[INFO]</text>
+  <text x="519" y="961" class="mono body muted">21:42:11</text>
+  <text x="625" y="961" class="mono body fg">tsx v4.7.0</text>
+  <text x="452" y="989" class="mono body fn">[INFO]</text>
+  <text x="519" y="989" class="mono body muted">21:42:11</text>
+  <text x="625" y="989" class="mono body fg">Server running on port </text>
+  <text x="878" y="989" class="mono body kw">3000</text>
+
+  <rect x="0" y="1020" width="1448" height="66" fill="#000000" stroke="#141414"/>
+  <text x="34" y="1062" class="ui body str">branch</text>
+  <text x="98" y="1062" class="ui body str">main</text>
+  <text x="150" y="1062" class="ui body str">+</text>
+  <text x="180" y="1062" class="ui body fg">0</text>
+  <text x="216" y="1062" class="ui body num">!</text>
+  <text x="246" y="1062" class="ui body fg">0</text>
+  <text x="280" y="1062" class="ui body kw">x</text>
+  <text x="310" y="1062" class="ui body fg">0</text>
+  <text x="790" y="1062" class="ui body muted">Ln 1, Col 1</text>
+  <text x="918" y="1062" class="ui body muted">Spaces: 2</text>
+  <text x="1031" y="1062" class="ui body muted">UTF-8</text>
+  <text x="1118" y="1062" class="ui body muted">LF</text>
+  <text x="1178" y="1062" class="ui body fn">TS</text>
+  <text x="1206" y="1062" class="ui body muted">TypeScript</text>
+  <text x="1324" y="1062" class="ui body str">check</text>
+  <text x="1376" y="1062" class="ui body muted">Prettier</text>
+</svg>

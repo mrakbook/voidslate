@@ -1,0 +1,483 @@
+/* VoidSlate superflat Activity Bar section accents.
+   VS Code color themes expose only one Activity Bar icon color. Load this file
+   with a custom CSS loader to get separate bright colors for each left nav item
+   and to let the active section color drive local sidebar accents. */
+
+:root {
+  --voidslate-activity-explorer: #9B7CFF;
+  --voidslate-activity-search: #FF2DAA;
+  --voidslate-activity-source-control: #39FF6B;
+  --voidslate-activity-run: #FFF75E;
+  --voidslate-activity-extensions: #C77DFF;
+  --voidslate-activity-testing: #FFB86B;
+  --voidslate-activity-remote: #40F7FF;
+  --voidslate-activity-account: #A78BFA;
+  --voidslate-activity-settings: #FF8B52;
+  --voidslate-section-accent: #9B7CFF;
+}
+
+.monaco-workbench {
+  --voidslate-active-section: var(--voidslate-section-accent);
+}
+
+.monaco-workbench .part.activitybar {
+  background-color: #000000 !important;
+  border-right-color: #141414 !important;
+}
+
+.monaco-workbench .part.activitybar .action-item,
+.monaco-workbench .part.activitybar .global-activity {
+  --voidslate-section-accent: var(--voidslate-activity-explorer);
+  background: transparent !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+  isolation: isolate !important;
+  position: relative !important;
+}
+
+.monaco-workbench .part.activitybar .action-item .action-label,
+.monaco-workbench .part.activitybar .global-activity .action-label {
+  background: transparent !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+  color: var(--voidslate-section-accent) !important;
+  filter: none !important;
+  opacity: 1 !important;
+  text-shadow: none !important;
+}
+
+.monaco-workbench .part.activitybar .action-label::before,
+.monaco-workbench .part.activitybar .action-label::after {
+  color: currentColor !important;
+}
+
+.monaco-workbench .part.activitybar .action-item:hover,
+.monaco-workbench .part.activitybar .global-activity:hover {
+  background-color: #100A18 !important;
+  background: color-mix(in srgb, var(--voidslate-section-accent) 14%, transparent) !important;
+}
+
+.monaco-workbench .part.activitybar .action-item.checked {
+  background: transparent !important;
+  background-color: transparent !important;
+  box-shadow: inset 3px 0 0 var(--voidslate-section-accent) !important;
+}
+
+.monaco-workbench .part.activitybar .action-item:hover .action-label,
+.monaco-workbench .part.activitybar .global-activity:hover .action-label,
+.monaco-workbench .part.activitybar .action-item.checked .action-label {
+  color: var(--voidslate-section-accent) !important;
+  opacity: 1 !important;
+  position: relative !important;
+  z-index: 2 !important;
+}
+
+.monaco-workbench .part.activitybar .action-item.checked::before {
+  background: transparent !important;
+  border-color: transparent !important;
+  bottom: 0 !important;
+  box-shadow: none !important;
+  content: "" !important;
+  display: none !important;
+  height: 100% !important;
+  inset: 0 auto 0 0 !important;
+  left: 0 !important;
+  max-width: 0 !important;
+  min-width: 0 !important;
+  opacity: 0 !important;
+  position: absolute !important;
+  right: auto !important;
+  top: 0 !important;
+  transform: none !important;
+  width: 0 !important;
+  z-index: -1 !important;
+}
+
+.monaco-workbench .part.activitybar .action-item.checked .active-item-indicator,
+.monaco-workbench .part.activitybar .action-item.checked .active-item-indicator::before,
+.monaco-workbench .part.activitybar .action-item.checked .active-item-indicator::after {
+  background: transparent !important;
+  border-color: transparent !important;
+  bottom: 0 !important;
+  box-shadow: none !important;
+  content: "" !important;
+  display: none !important;
+  height: 100% !important;
+  inset: 0 auto 0 0 !important;
+  left: 0 !important;
+  max-width: 0 !important;
+  min-width: 0 !important;
+  opacity: 0 !important;
+  position: absolute !important;
+  right: auto !important;
+  top: 0 !important;
+  transform: none !important;
+  width: 0 !important;
+  z-index: -1 !important;
+}
+
+.monaco-workbench .part.activitybar .action-item.checked > .action-label,
+.monaco-workbench .part.activitybar .action-item.checked > a.action-label {
+  background: transparent !important;
+  color: var(--voidslate-section-accent) !important;
+  opacity: 1 !important;
+  position: relative !important;
+  z-index: 3 !important;
+}
+
+.monaco-workbench .part.activitybar .action-item.checked > .action-label::before,
+.monaco-workbench .part.activitybar .action-item.checked > .action-label::after,
+.monaco-workbench .part.activitybar .action-item.checked > a.action-label::before,
+.monaco-workbench .part.activitybar .action-item.checked > a.action-label::after {
+  color: var(--voidslate-section-accent) !important;
+  opacity: 1 !important;
+  position: relative !important;
+  z-index: 4 !important;
+}
+
+.monaco-workbench .part.activitybar .content .actions-container > .action-item:nth-child(1),
+.monaco-workbench .part.activitybar .content .actions-container > .action-item:nth-child(1) .action-label {
+  --voidslate-section-accent: var(--voidslate-activity-explorer);
+  color: var(--voidslate-activity-explorer) !important;
+}
+
+.monaco-workbench .part.activitybar .content .actions-container > .action-item:nth-child(2),
+.monaco-workbench .part.activitybar .content .actions-container > .action-item:nth-child(2) .action-label {
+  --voidslate-section-accent: var(--voidslate-activity-search);
+  color: var(--voidslate-activity-search) !important;
+}
+
+.monaco-workbench .part.activitybar .content .actions-container > .action-item:nth-child(3),
+.monaco-workbench .part.activitybar .content .actions-container > .action-item:nth-child(3) .action-label {
+  --voidslate-section-accent: var(--voidslate-activity-source-control);
+  color: var(--voidslate-activity-source-control) !important;
+}
+
+.monaco-workbench .part.activitybar .content .actions-container > .action-item:nth-child(4),
+.monaco-workbench .part.activitybar .content .actions-container > .action-item:nth-child(4) .action-label {
+  --voidslate-section-accent: var(--voidslate-activity-run);
+  color: var(--voidslate-activity-run) !important;
+}
+
+.monaco-workbench .part.activitybar .content .actions-container > .action-item:nth-child(5),
+.monaco-workbench .part.activitybar .content .actions-container > .action-item:nth-child(5) .action-label {
+  --voidslate-section-accent: var(--voidslate-activity-extensions);
+  color: var(--voidslate-activity-extensions) !important;
+}
+
+.monaco-workbench .part.activitybar .content .actions-container > .action-item:nth-child(6),
+.monaco-workbench .part.activitybar .content .actions-container > .action-item:nth-child(6) .action-label {
+  --voidslate-section-accent: var(--voidslate-activity-testing);
+  color: var(--voidslate-activity-testing) !important;
+}
+
+.monaco-workbench .part.activitybar .content .actions-container > .action-item:nth-child(7),
+.monaco-workbench .part.activitybar .content .actions-container > .action-item:nth-child(7) .action-label {
+  --voidslate-section-accent: var(--voidslate-activity-remote);
+  color: var(--voidslate-activity-remote) !important;
+}
+
+.monaco-workbench .part.activitybar .content .actions-container > .action-item:nth-child(8),
+.monaco-workbench .part.activitybar .content .actions-container > .action-item:nth-child(8) .action-label {
+  --voidslate-section-accent: var(--voidslate-activity-account);
+  color: var(--voidslate-activity-account) !important;
+}
+
+.monaco-workbench .part.activitybar .content .actions-container > .action-item:nth-child(9),
+.monaco-workbench .part.activitybar .content .actions-container > .action-item:nth-child(9) .action-label {
+  --voidslate-section-accent: var(--voidslate-activity-settings);
+  color: var(--voidslate-activity-settings) !important;
+}
+
+.monaco-workbench .part.activitybar .action-item:has(.codicon-explorer-view-icon),
+.monaco-workbench .part.activitybar .action-item:has(.codicon-files),
+.monaco-workbench .part.activitybar .action-item:has([aria-label*="Explorer" i]),
+.monaco-workbench .part.activitybar .action-item:has([title*="Explorer" i]),
+.monaco-workbench .part.activitybar .action-item[aria-label*="Explorer" i],
+.monaco-workbench .part.activitybar .action-item[aria-label*="Explorer" i] .action-label,
+.monaco-workbench .part.activitybar .action-item[title*="Explorer" i],
+.monaco-workbench .part.activitybar .action-item[title*="Explorer" i] .action-label,
+.monaco-workbench .part.activitybar .action-label.codicon-explorer-view-icon,
+.monaco-workbench .part.activitybar .action-label.codicon-files,
+.monaco-workbench .part.activitybar [aria-label*="Explorer" i],
+.monaco-workbench .part.activitybar [title*="Explorer" i] {
+  --voidslate-section-accent: var(--voidslate-activity-explorer);
+  color: var(--voidslate-activity-explorer) !important;
+}
+
+.monaco-workbench .part.activitybar .action-item:has(.codicon-search-view-icon),
+.monaco-workbench .part.activitybar .action-item:has(.codicon-search),
+.monaco-workbench .part.activitybar .action-item:has([aria-label*="Search" i]),
+.monaco-workbench .part.activitybar .action-item:has([title*="Search" i]),
+.monaco-workbench .part.activitybar .action-item[aria-label*="Search" i],
+.monaco-workbench .part.activitybar .action-item[aria-label*="Search" i] .action-label,
+.monaco-workbench .part.activitybar .action-item[title*="Search" i],
+.monaco-workbench .part.activitybar .action-item[title*="Search" i] .action-label,
+.monaco-workbench .part.activitybar .action-label.codicon-search-view-icon,
+.monaco-workbench .part.activitybar .action-label.codicon-search,
+.monaco-workbench .part.activitybar [aria-label*="Search" i],
+.monaco-workbench .part.activitybar [title*="Search" i] {
+  --voidslate-section-accent: var(--voidslate-activity-search);
+  color: var(--voidslate-activity-search) !important;
+}
+
+.monaco-workbench .part.activitybar .action-item:has(.codicon-source-control-view-icon),
+.monaco-workbench .part.activitybar .action-item:has(.codicon-source-control),
+.monaco-workbench .part.activitybar .action-item:has([aria-label*="Source Control" i]),
+.monaco-workbench .part.activitybar .action-item:has([title*="Source Control" i]),
+.monaco-workbench .part.activitybar .action-item[aria-label*="Source Control" i],
+.monaco-workbench .part.activitybar .action-item[aria-label*="Source Control" i] .action-label,
+.monaco-workbench .part.activitybar .action-item[title*="Source Control" i],
+.monaco-workbench .part.activitybar .action-item[title*="Source Control" i] .action-label,
+.monaco-workbench .part.activitybar .action-label.codicon-source-control-view-icon,
+.monaco-workbench .part.activitybar .action-label.codicon-source-control,
+.monaco-workbench .part.activitybar [aria-label*="Source Control" i],
+.monaco-workbench .part.activitybar [title*="Source Control" i] {
+  --voidslate-section-accent: var(--voidslate-activity-source-control);
+  color: var(--voidslate-activity-source-control) !important;
+}
+
+.monaco-workbench .part.activitybar .action-item:has(.codicon-run-view-icon),
+.monaco-workbench .part.activitybar .action-item:has(.codicon-debug-alt),
+.monaco-workbench .part.activitybar .action-item:has(.codicon-run),
+.monaco-workbench .part.activitybar .action-item:has([aria-label*="Run and Debug" i]),
+.monaco-workbench .part.activitybar .action-item:has([aria-label*="Debug" i]),
+.monaco-workbench .part.activitybar .action-item:has([title*="Run and Debug" i]),
+.monaco-workbench .part.activitybar .action-item:has([title*="Debug" i]),
+.monaco-workbench .part.activitybar .action-item[aria-label*="Run and Debug" i],
+.monaco-workbench .part.activitybar .action-item[aria-label*="Run and Debug" i] .action-label,
+.monaco-workbench .part.activitybar .action-item[aria-label*="Debug" i],
+.monaco-workbench .part.activitybar .action-item[aria-label*="Debug" i] .action-label,
+.monaco-workbench .part.activitybar .action-item[title*="Run and Debug" i],
+.monaco-workbench .part.activitybar .action-item[title*="Run and Debug" i] .action-label,
+.monaco-workbench .part.activitybar .action-item[title*="Debug" i],
+.monaco-workbench .part.activitybar .action-item[title*="Debug" i] .action-label,
+.monaco-workbench .part.activitybar .action-label.codicon-run-view-icon,
+.monaco-workbench .part.activitybar .action-label.codicon-debug-alt,
+.monaco-workbench .part.activitybar .action-label.codicon-run,
+.monaco-workbench .part.activitybar [aria-label*="Run and Debug" i],
+.monaco-workbench .part.activitybar [aria-label*="Debug" i],
+.monaco-workbench .part.activitybar [title*="Run and Debug" i],
+.monaco-workbench .part.activitybar [title*="Debug" i] {
+  --voidslate-section-accent: var(--voidslate-activity-run);
+  color: var(--voidslate-activity-run) !important;
+}
+
+.monaco-workbench .part.activitybar .action-item:has(.codicon-extensions-view-icon),
+.monaco-workbench .part.activitybar .action-item:has(.codicon-extensions),
+.monaco-workbench .part.activitybar .action-item:has([aria-label*="Extensions" i]),
+.monaco-workbench .part.activitybar .action-item:has([title*="Extensions" i]),
+.monaco-workbench .part.activitybar .action-item[aria-label*="Extensions" i],
+.monaco-workbench .part.activitybar .action-item[aria-label*="Extensions" i] .action-label,
+.monaco-workbench .part.activitybar .action-item[title*="Extensions" i],
+.monaco-workbench .part.activitybar .action-item[title*="Extensions" i] .action-label,
+.monaco-workbench .part.activitybar .action-label.codicon-extensions-view-icon,
+.monaco-workbench .part.activitybar .action-label.codicon-extensions,
+.monaco-workbench .part.activitybar [aria-label*="Extensions" i],
+.monaco-workbench .part.activitybar [title*="Extensions" i] {
+  --voidslate-section-accent: var(--voidslate-activity-extensions);
+  color: var(--voidslate-activity-extensions) !important;
+}
+
+.monaco-workbench .part.activitybar .action-item:has(.codicon-testing-view-icon),
+.monaco-workbench .part.activitybar .action-item:has(.codicon-beaker),
+.monaco-workbench .part.activitybar .action-item:has([aria-label*="Testing" i]),
+.monaco-workbench .part.activitybar .action-item:has([title*="Testing" i]),
+.monaco-workbench .part.activitybar .action-item[aria-label*="Testing" i],
+.monaco-workbench .part.activitybar .action-item[aria-label*="Testing" i] .action-label,
+.monaco-workbench .part.activitybar .action-item[title*="Testing" i],
+.monaco-workbench .part.activitybar .action-item[title*="Testing" i] .action-label,
+.monaco-workbench .part.activitybar .action-label.codicon-testing-view-icon,
+.monaco-workbench .part.activitybar .action-label.codicon-beaker,
+.monaco-workbench .part.activitybar [aria-label*="Testing" i],
+.monaco-workbench .part.activitybar [title*="Testing" i] {
+  --voidslate-section-accent: var(--voidslate-activity-testing);
+  color: var(--voidslate-activity-testing) !important;
+}
+
+.monaco-workbench .part.activitybar .action-item:has(.codicon-remote-explorer-view-icon),
+.monaco-workbench .part.activitybar .action-item:has(.codicon-remote-explorer),
+.monaco-workbench .part.activitybar .action-item:has([aria-label*="Remote Explorer" i]),
+.monaco-workbench .part.activitybar .action-item:has([title*="Remote Explorer" i]),
+.monaco-workbench .part.activitybar .action-item[aria-label*="Remote Explorer" i],
+.monaco-workbench .part.activitybar .action-item[aria-label*="Remote Explorer" i] .action-label,
+.monaco-workbench .part.activitybar .action-item[title*="Remote Explorer" i],
+.monaco-workbench .part.activitybar .action-item[title*="Remote Explorer" i] .action-label,
+.monaco-workbench .part.activitybar .action-label.codicon-remote-explorer-view-icon,
+.monaco-workbench .part.activitybar .action-label.codicon-remote-explorer,
+.monaco-workbench .part.activitybar [aria-label*="Remote Explorer" i],
+.monaco-workbench .part.activitybar [title*="Remote Explorer" i] {
+  --voidslate-section-accent: var(--voidslate-activity-remote);
+  color: var(--voidslate-activity-remote) !important;
+}
+
+.monaco-workbench .part.activitybar .global-activity:has(.codicon-accounts-view-bar-icon),
+.monaco-workbench .part.activitybar .global-activity:has(.codicon-account),
+.monaco-workbench .part.activitybar .global-activity:has([aria-label*="Accounts" i]),
+.monaco-workbench .part.activitybar .global-activity:has([title*="Accounts" i]),
+.monaco-workbench .part.activitybar .global-activity[aria-label*="Accounts" i],
+.monaco-workbench .part.activitybar .global-activity[aria-label*="Accounts" i] .action-label,
+.monaco-workbench .part.activitybar .global-activity[title*="Accounts" i],
+.monaco-workbench .part.activitybar .global-activity[title*="Accounts" i] .action-label,
+.monaco-workbench .part.activitybar .action-label.codicon-accounts-view-bar-icon,
+.monaco-workbench .part.activitybar .action-label.codicon-account,
+.monaco-workbench .part.activitybar [aria-label*="Accounts" i],
+.monaco-workbench .part.activitybar [title*="Accounts" i] {
+  --voidslate-section-accent: var(--voidslate-activity-account);
+  color: var(--voidslate-activity-account) !important;
+}
+
+.monaco-workbench .part.activitybar .global-activity:has(.codicon-settings-view-bar-icon),
+.monaco-workbench .part.activitybar .global-activity:has(.codicon-settings-gear),
+.monaco-workbench .part.activitybar .global-activity:has(.codicon-gear),
+.monaco-workbench .part.activitybar .global-activity:has([aria-label*="Manage" i]),
+.monaco-workbench .part.activitybar .global-activity:has([aria-label*="Settings" i]),
+.monaco-workbench .part.activitybar .global-activity:has([title*="Manage" i]),
+.monaco-workbench .part.activitybar .global-activity:has([title*="Settings" i]),
+.monaco-workbench .part.activitybar .global-activity[aria-label*="Manage" i],
+.monaco-workbench .part.activitybar .global-activity[aria-label*="Manage" i] .action-label,
+.monaco-workbench .part.activitybar .global-activity[aria-label*="Settings" i],
+.monaco-workbench .part.activitybar .global-activity[aria-label*="Settings" i] .action-label,
+.monaco-workbench .part.activitybar .global-activity[title*="Manage" i],
+.monaco-workbench .part.activitybar .global-activity[title*="Manage" i] .action-label,
+.monaco-workbench .part.activitybar .global-activity[title*="Settings" i],
+.monaco-workbench .part.activitybar .global-activity[title*="Settings" i] .action-label,
+.monaco-workbench .part.activitybar .action-label.codicon-settings-view-bar-icon,
+.monaco-workbench .part.activitybar .action-label.codicon-settings-gear,
+.monaco-workbench .part.activitybar .action-label.codicon-gear,
+.monaco-workbench .part.activitybar [aria-label*="Manage" i],
+.monaco-workbench .part.activitybar [aria-label*="Settings" i],
+.monaco-workbench .part.activitybar [title*="Manage" i],
+.monaco-workbench .part.activitybar [title*="Settings" i] {
+  --voidslate-section-accent: var(--voidslate-activity-settings);
+  color: var(--voidslate-activity-settings) !important;
+}
+
+.monaco-workbench:has(.part.activitybar .action-item.checked .codicon-explorer-view-icon),
+.monaco-workbench:has(.part.activitybar .action-item.checked .codicon-files),
+.monaco-workbench:has(.part.activitybar .action-item.checked [aria-label*="Explorer" i]),
+.monaco-workbench:has(.part.activitybar .action-item.checked[aria-label*="Explorer" i]),
+.monaco-workbench:has(.part.activitybar .action-item[aria-label*="Explorer" i][aria-checked="true"]),
+.monaco-workbench:has(.part.activitybar .action-item.checked[title*="Explorer" i]),
+.monaco-workbench:has(.part.activitybar .action-item[title*="Explorer" i][aria-checked="true"]),
+.monaco-workbench:has(.part.activitybar .content .actions-container > .action-item:nth-child(1).checked),
+.monaco-workbench:has(.part.activitybar .content .actions-container > .action-item:nth-child(1)[aria-checked="true"]) {
+  --voidslate-active-section: var(--voidslate-activity-explorer);
+}
+
+.monaco-workbench:has(.part.activitybar .action-item.checked .codicon-search-view-icon),
+.monaco-workbench:has(.part.activitybar .action-item.checked .codicon-search),
+.monaco-workbench:has(.part.activitybar .action-item.checked [aria-label*="Search" i]),
+.monaco-workbench:has(.part.activitybar .action-item.checked[aria-label*="Search" i]),
+.monaco-workbench:has(.part.activitybar .action-item[aria-label*="Search" i][aria-checked="true"]),
+.monaco-workbench:has(.part.activitybar .action-item.checked[title*="Search" i]),
+.monaco-workbench:has(.part.activitybar .action-item[title*="Search" i][aria-checked="true"]),
+.monaco-workbench:has(.part.activitybar .content .actions-container > .action-item:nth-child(2).checked),
+.monaco-workbench:has(.part.activitybar .content .actions-container > .action-item:nth-child(2)[aria-checked="true"]) {
+  --voidslate-active-section: var(--voidslate-activity-search);
+}
+
+.monaco-workbench:has(.part.activitybar .action-item.checked .codicon-source-control-view-icon),
+.monaco-workbench:has(.part.activitybar .action-item.checked .codicon-source-control),
+.monaco-workbench:has(.part.activitybar .action-item.checked [aria-label*="Source Control" i]),
+.monaco-workbench:has(.part.activitybar .action-item.checked[aria-label*="Source Control" i]),
+.monaco-workbench:has(.part.activitybar .action-item[aria-label*="Source Control" i][aria-checked="true"]),
+.monaco-workbench:has(.part.activitybar .action-item.checked[title*="Source Control" i]),
+.monaco-workbench:has(.part.activitybar .action-item[title*="Source Control" i][aria-checked="true"]),
+.monaco-workbench:has(.part.activitybar .content .actions-container > .action-item:nth-child(3).checked),
+.monaco-workbench:has(.part.activitybar .content .actions-container > .action-item:nth-child(3)[aria-checked="true"]) {
+  --voidslate-active-section: var(--voidslate-activity-source-control);
+}
+
+.monaco-workbench:has(.part.activitybar .action-item.checked .codicon-run-view-icon),
+.monaco-workbench:has(.part.activitybar .action-item.checked .codicon-debug-alt),
+.monaco-workbench:has(.part.activitybar .action-item.checked .codicon-run),
+.monaco-workbench:has(.part.activitybar .action-item.checked [aria-label*="Run and Debug" i]),
+.monaco-workbench:has(.part.activitybar .action-item.checked [aria-label*="Debug" i]),
+.monaco-workbench:has(.part.activitybar .action-item.checked[aria-label*="Run and Debug" i]),
+.monaco-workbench:has(.part.activitybar .action-item[aria-label*="Run and Debug" i][aria-checked="true"]),
+.monaco-workbench:has(.part.activitybar .action-item.checked[aria-label*="Debug" i]),
+.monaco-workbench:has(.part.activitybar .action-item[aria-label*="Debug" i][aria-checked="true"]),
+.monaco-workbench:has(.part.activitybar .action-item.checked[title*="Run and Debug" i]),
+.monaco-workbench:has(.part.activitybar .action-item[title*="Run and Debug" i][aria-checked="true"]),
+.monaco-workbench:has(.part.activitybar .action-item.checked[title*="Debug" i]),
+.monaco-workbench:has(.part.activitybar .action-item[title*="Debug" i][aria-checked="true"]),
+.monaco-workbench:has(.part.activitybar .content .actions-container > .action-item:nth-child(4).checked),
+.monaco-workbench:has(.part.activitybar .content .actions-container > .action-item:nth-child(4)[aria-checked="true"]) {
+  --voidslate-active-section: var(--voidslate-activity-run);
+}
+
+.monaco-workbench:has(.part.activitybar .action-item.checked .codicon-extensions-view-icon),
+.monaco-workbench:has(.part.activitybar .action-item.checked .codicon-extensions),
+.monaco-workbench:has(.part.activitybar .action-item.checked [aria-label*="Extensions" i]),
+.monaco-workbench:has(.part.activitybar .action-item.checked[aria-label*="Extensions" i]),
+.monaco-workbench:has(.part.activitybar .action-item[aria-label*="Extensions" i][aria-checked="true"]),
+.monaco-workbench:has(.part.activitybar .action-item.checked[title*="Extensions" i]),
+.monaco-workbench:has(.part.activitybar .action-item[title*="Extensions" i][aria-checked="true"]),
+.monaco-workbench:has(.part.activitybar .content .actions-container > .action-item:nth-child(5).checked),
+.monaco-workbench:has(.part.activitybar .content .actions-container > .action-item:nth-child(5)[aria-checked="true"]) {
+  --voidslate-active-section: var(--voidslate-activity-extensions);
+}
+
+.monaco-workbench:has(.part.activitybar .action-item.checked .codicon-testing-view-icon),
+.monaco-workbench:has(.part.activitybar .action-item.checked .codicon-beaker),
+.monaco-workbench:has(.part.activitybar .action-item.checked [aria-label*="Testing" i]),
+.monaco-workbench:has(.part.activitybar .action-item.checked[aria-label*="Testing" i]),
+.monaco-workbench:has(.part.activitybar .action-item[aria-label*="Testing" i][aria-checked="true"]),
+.monaco-workbench:has(.part.activitybar .action-item.checked[title*="Testing" i]),
+.monaco-workbench:has(.part.activitybar .action-item[title*="Testing" i][aria-checked="true"]),
+.monaco-workbench:has(.part.activitybar .content .actions-container > .action-item:nth-child(6).checked),
+.monaco-workbench:has(.part.activitybar .content .actions-container > .action-item:nth-child(6)[aria-checked="true"]) {
+  --voidslate-active-section: var(--voidslate-activity-testing);
+}
+
+.monaco-workbench:has(.part.activitybar .action-item.checked .codicon-remote-explorer-view-icon),
+.monaco-workbench:has(.part.activitybar .action-item.checked .codicon-remote-explorer),
+.monaco-workbench:has(.part.activitybar .action-item.checked [aria-label*="Remote Explorer" i]),
+.monaco-workbench:has(.part.activitybar .action-item.checked[aria-label*="Remote Explorer" i]),
+.monaco-workbench:has(.part.activitybar .action-item[aria-label*="Remote Explorer" i][aria-checked="true"]),
+.monaco-workbench:has(.part.activitybar .action-item.checked[title*="Remote Explorer" i]),
+.monaco-workbench:has(.part.activitybar .action-item[title*="Remote Explorer" i][aria-checked="true"]),
+.monaco-workbench:has(.part.activitybar .content .actions-container > .action-item:nth-child(7).checked),
+.monaco-workbench:has(.part.activitybar .content .actions-container > .action-item:nth-child(7)[aria-checked="true"]) {
+  --voidslate-active-section: var(--voidslate-activity-remote);
+}
+
+.monaco-workbench .part.sidebar > .title,
+.monaco-workbench .part.sidebar .composite.title,
+.monaco-workbench .part.sidebar .pane-header {
+  background-color: #000000 !important;
+  border-color: #141414 !important;
+  box-shadow: none !important;
+}
+
+.monaco-workbench .part.sidebar .composite.title .title-label,
+.monaco-workbench .part.sidebar .composite.title h2,
+.monaco-workbench .part.sidebar .title-label,
+.monaco-workbench .part.sidebar .pane-header .title,
+.monaco-workbench .part.sidebar .pane-header .name {
+  color: var(--voidslate-active-section) !important;
+}
+
+.monaco-workbench .part.sidebar .monaco-inputbox.synthetic-focus,
+.monaco-workbench .part.sidebar .monaco-inputbox:focus-within,
+.monaco-workbench .part.sidebar input:focus,
+.monaco-workbench .part.sidebar textarea:focus {
+  border-color: var(--voidslate-active-section) !important;
+  outline-color: var(--voidslate-active-section) !important;
+}
+
+.monaco-workbench .part.sidebar .monaco-list-row.focused,
+.monaco-workbench .part.sidebar .monaco-list-row.selected,
+.monaco-workbench .part.sidebar .monaco-list-row:hover {
+  border-left: 2px solid var(--voidslate-active-section) !important;
+  box-shadow: none !important;
+}
+
+.monaco-workbench .part.sidebar .monaco-count-badge,
+.monaco-workbench .part.activitybar .badge .badge-content {
+  background-color: #000000 !important;
+  border: 1px solid var(--voidslate-active-section) !important;
+  color: var(--voidslate-active-section) !important;
+  box-shadow: none !important;
+}

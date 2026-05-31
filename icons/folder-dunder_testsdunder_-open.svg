@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" width="32" height="32">
+  <path d="M3.4 9.2h9.4l2.5 3.2H29c.75 0 1.35.6 1.35 1.35v6H2V10.55c0-.75.65-1.35 1.4-1.35z" fill="#101214" stroke="#252A2F" stroke-width="1"/>
+  <path d="M3.4 9.2h9.4l2.5 3.2H29v4H2v-5.05c0-.75.65-2.15 1.4-2.15z" fill="#31FF69" opacity="0.24"/>
+  <path d="M5.2 15.2h25.2l-3.15 14.6H2.75L5.2 15.2z" fill="#14171A" stroke="#31FF69" stroke-width="1.15" stroke-linejoin="round"/>
+  <rect x="7" y="18.8" width="4.1" height="2" rx="1" fill="#FFE600" opacity="0.9"/>
+  <text x="17" y="25.1" text-anchor="middle" font-family="Inter, Segoe UI, Arial, sans-serif" font-size="6.6" font-weight="850" letter-spacing="0.2" fill="#31FF69">TST</text>
+</svg>
