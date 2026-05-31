@@ -1,0 +1,110 @@
+{
+  "name": "voidslate",
+  "displayName": "VoidSlate",
+  "description": "Super-flat black VS Code theme with multicolor neon syntax, compact workbench colors, and matching VoidSlate file icons.",
+  "version": "0.0.1",
+  "publisher": "mrakbook",
+  "author": {
+    "name": "MrakBook - Boris Karaoglanov",
+    "email": "boris@mrakbook.com",
+    "url": "https://mrakbook.com"
+  },
+  "homepage": "https://mrakbook.com/voidslate",
+  "main": "./extension.js",
+  "activationEvents": [
+    "onStartupFinished",
+    "onCommand:voidslate.applyActivityBarColors",
+    "onCommand:voidslate.removeActivityBarColors"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/mrakbook/voidslate.git"
+  },
+  "bugs": {
+    "url": "https://github.com/mrakbook/voidslate/issues"
+  },
+  "license": "SEE LICENSE IN LICENSE.md",
+  "engines": {
+    "vscode": "^1.90.0"
+  },
+  "categories": [
+    "Themes"
+  ],
+  "keywords": [
+    "voidslate",
+    "theme",
+    "dark theme",
+    "black",
+    "neon",
+    "file icons",
+    "typescript"
+  ],
+  "icon": "logo.png",
+  "galleryBanner": {
+    "color": "#000000",
+    "theme": "dark"
+  },
+  "extensionKind": [
+    "ui"
+  ],
+  "contributes": {
+    "themes": [
+      {
+        "label": "VoidSlate",
+        "uiTheme": "vs-dark",
+        "path": "./themes/voidslate-color-theme.json"
+      }
+    ],
+    "iconThemes": [
+      {
+        "id": "voidslate-icons",
+        "label": "VoidSlate Icons",
+        "path": "./themes/voidslate-icons.json"
+      }
+    ],
+    "commands": [
+      {
+        "command": "voidslate.applyActivityBarColors",
+        "title": "VoidSlate: Apply Activity Bar Colors",
+        "category": "VoidSlate"
+      },
+      {
+        "command": "voidslate.removeActivityBarColors",
+        "title": "VoidSlate: Remove Activity Bar Colors",
+        "category": "VoidSlate"
+      }
+    ],
+    "configuration": {
+      "title": "VoidSlate",
+      "properties": {
+        "voidslate.activityBar.applyColorsOnStartup": {
+          "type": "boolean",
+          "default": true,
+          "description": "Prompt to apply VoidSlate's superflat per-section Activity Bar color patch when VS Code starts."
+        }
+      }
+    },
+    "configurationDefaults": {
+      "workbench.colorTheme": "VoidSlate",
+      "workbench.iconTheme": "voidslate-icons",
+      "workbench.productIconTheme": "Default",
+      "window.titleBarStyle": "custom",
+      "editor.fontFamily": "Fira Code, Consolas, 'Courier New', monospace",
+      "editor.fontSize": 14,
+      "editor.fontWeight": "500",
+      "editor.lineHeight": 22,
+      "editor.tabSize": 2,
+      "editor.cursorBlinking": "blink",
+      "terminal.integrated.fontFamily": "Fira Code, Consolas, 'Courier New', monospace",
+      "terminal.integrated.fontSize": 14,
+      "files.autoSave": "off"
+    }
+  },
+  "scripts": {
+    "check": "./plsr check",
+    "validate": "node scripts/validate-extension.js",
+    "ci": "./plsr ci check",
+    "release:gate": "./plsr ci release-gate",
+    "package:vsix": "./plsr package"
+  }
+}

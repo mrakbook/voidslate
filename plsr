@@ -1,0 +1,684 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+PLSR_ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+PLSR_PACKAGE_JSON="${PLSR_ROOT}/package.json"
+PLSR_TEMPLATE_PACKAGE_JSON="${PLSR_ROOT}/template/package.json"
+PLSR_CHANGELOG="${PLSR_ROOT}/CHANGELOG.md"
+
+plsr_log() {
+  printf '[plsr] %s\n' "$*"
+}
+
+plsr_die() {
+  printf '[plsr] error: %s\n' "$*" >&2
+  exit 1
+}
+
+plsr_usage() {
+  cat <<'EOF'
+VoidSlate PLSR: lightweight VS Code theme extension release helper.
+
+Usage:
+  ./plsr doctor
+  ./plsr check
+  ./plsr validate
+  ./plsr extension-check
+  ./plsr actions-check
+  ./plsr versions current
+  ./plsr versions check
+  ./plsr versions bump <major|minor|patch> [--dry-run]
+  ./plsr versions set <x.y.z> [--dry-run]
+  ./plsr ci check
+  ./plsr ci release-gate
+  ./plsr package [--out-dir <dir>] [--skip-check] [--no-verify]
+  ./plsr package-check
+
+Aliases:
+  ./plsr version ...          Same as ./plsr versions ...
+EOF
+}
+
+plsr_is_semver() {
+  [[ "${1:-}" =~ ^[0-9]+\.[0-9]+\.[0-9]+$ ]]
+}
+
+plsr_require_semver() {
+  local version="${1:-}"
+  plsr_is_semver "${version}" || plsr_die "expected semver x.y.z, got '${version}'"
+}
+
+plsr_json_version() {
+  local file="$1"
+  node -e '
+const fs = require("fs");
+const file = process.argv[1];
+const data = JSON.parse(fs.readFileSync(file, "utf8"));
+if (typeof data.version !== "string") process.exit(2);
+process.stdout.write(data.version);
+' "${file}"
+}
+
+plsr_write_json_version() {
+  local file="$1"
+  local version="$2"
+  local dry_run="$3"
+  local relative="${file#"${PLSR_ROOT}/"}"
+
+  if [[ "${dry_run}" == "1" ]]; then
+    plsr_log "[dry-run] ${relative} version -> ${version}"
+    return 0
+  fi
+
+  node -e '
+const fs = require("fs");
+const file = process.argv[1];
+const version = process.argv[2];
+const data = JSON.parse(fs.readFileSync(file, "utf8"));
+data.version = version;
+fs.writeFileSync(file, `${JSON.stringify(data, null, 2)}\n`);
+' "${file}" "${version}"
+}
+
+plsr_current_version() {
+  plsr_json_version "${PLSR_PACKAGE_JSON}"
+}
+
+plsr_bump_semver() {
+  local current="$1"
+  local bump="$2"
+  plsr_require_semver "${current}"
+
+  local major minor patch
+  IFS='.' read -r major minor patch <<<"${current}"
+
+  case "${bump}" in
+    major)
+      major=$((major + 1))
+      minor=0
+      patch=0
+      ;;
+    minor)
+      minor=$((minor + 1))
+      patch=0
+      ;;
+    patch)
+      patch=$((patch + 1))
+      ;;
+    *)
+      plsr_die "unsupported bump '${bump}'"
+      ;;
+  esac
+
+  printf '%s.%s.%s' "${major}" "${minor}" "${patch}"
+}
+
+plsr_sync_changelog_heading() {
+  local version="$1"
+  local dry_run="$2"
+
+  [[ -f "${PLSR_CHANGELOG}" ]] || return 0
+  if grep -Eq "^## ${version}$" "${PLSR_CHANGELOG}"; then
+    return 0
+  fi
+
+  if [[ "${dry_run}" == "1" ]]; then
+    plsr_log "[dry-run] add CHANGELOG.md heading for ${version}"
+    return 0
+  fi
+
+  local tmp_file
+  tmp_file="$(mktemp)"
+  awk -v version="${version}" '
+    NR == 1 {
+      print
+      print ""
+      print "## " version
+      print ""
+      print "- Release notes pending."
+      next
+    }
+    { print }
+  ' "${PLSR_CHANGELOG}" > "${tmp_file}"
+  mv "${tmp_file}" "${PLSR_CHANGELOG}"
+}
+
+plsr_sync_text_version_references() {
+  local old_version="$1"
+  local new_version="$2"
+  local dry_run="$3"
+
+  [[ "${old_version}" != "${new_version}" ]] || return 0
+
+  node - "${PLSR_ROOT}" "${old_version}" "${new_version}" "${dry_run}" <<'NODE'
+const fs = require('fs');
+const path = require('path');
+
+const root = process.argv[2];
+const oldVersion = process.argv[3];
+const newVersion = process.argv[4];
+const dryRun = process.argv[5] === '1';
+
+const files = [
+  'README.md',
+  'README copy.md',
+  'SECURITY.md',
+  'SUPPORT.md',
+  'template/README.md',
+  'screenshots/voidslate-syntax-screen.svg'
+];
+
+const escapeRegExp = (value) => value.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+const oldVersionPattern = new RegExp(escapeRegExp(oldVersion), 'g');
+
+for (const relativePath of files) {
+  const file = path.join(root, relativePath);
+  if (!fs.existsSync(file)) continue;
+
+  const current = fs.readFileSync(file, 'utf8');
+  const next = current.replace(oldVersionPattern, newVersion);
+  if (next === current) continue;
+
+  if (dryRun) {
+    console.error(`[plsr] [dry-run] ${relativePath}: ${oldVersion} -> ${newVersion}`);
+  } else {
+    fs.writeFileSync(file, next, 'utf8');
+  }
+}
+NODE
+}
+
+plsr_set_version() {
+  local version="$1"
+  local dry_run="${2:-0}"
+
+  plsr_require_semver "${version}"
+  local old_version
+  old_version="$(plsr_current_version)"
+
+  plsr_write_json_version "${PLSR_PACKAGE_JSON}" "${version}" "${dry_run}"
+  if [[ -f "${PLSR_TEMPLATE_PACKAGE_JSON}" ]]; then
+    plsr_write_json_version "${PLSR_TEMPLATE_PACKAGE_JSON}" "${version}" "${dry_run}"
+  fi
+  plsr_sync_text_version_references "${old_version}" "${version}" "${dry_run}"
+  plsr_sync_changelog_heading "${version}" "${dry_run}"
+  if [[ "${dry_run}" == "1" ]]; then
+    plsr_log "[dry-run] version would be set to ${version}"
+  else
+    plsr_log "version set to ${version}"
+  fi
+}
+
+plsr_versions_check() {
+  local package_version template_version
+  package_version="$(plsr_json_version "${PLSR_PACKAGE_JSON}")"
+
+  plsr_require_semver "${package_version}"
+
+  if [[ -f "${PLSR_TEMPLATE_PACKAGE_JSON}" ]]; then
+    template_version="$(plsr_json_version "${PLSR_TEMPLATE_PACKAGE_JSON}")"
+    plsr_require_semver "${template_version}"
+
+    if [[ "${package_version}" != "${template_version}" ]]; then
+      plsr_die "package.json (${package_version}) and template/package.json (${template_version}) versions differ"
+    fi
+  fi
+
+  if [[ -f "${PLSR_CHANGELOG}" ]] && ! grep -Eq "^## ${package_version}$" "${PLSR_CHANGELOG}"; then
+    plsr_die "CHANGELOG.md is missing heading '## ${package_version}'"
+  fi
+
+  plsr_versions_projection_check "${package_version}"
+  plsr_log "version check passed (${package_version})"
+}
+
+plsr_versions_projection_check() {
+  local package_version="$1"
+  node - "${PLSR_ROOT}" "${package_version}" <<'NODE'
+const fs = require('fs');
+const path = require('path');
+
+const root = process.argv[2];
+const version = process.argv[3];
+const fail = (message) => {
+  console.error(`[plsr] error: ${message}`);
+  process.exit(1);
+};
+const assert = (condition, message) => {
+  if (!condition) fail(message);
+};
+const readIfExists = (relativePath) => {
+  const file = path.join(root, relativePath);
+  return fs.existsSync(file) ? fs.readFileSync(file, 'utf8') : null;
+};
+const assertIncludes = (relativePath, expected) => {
+  const content = readIfExists(relativePath);
+  if (content === null) return;
+  assert(content.includes(expected), `${relativePath} must reference current version: ${expected}`);
+};
+
+assertIncludes('README.md', `voidslate-${version}`);
+assertIncludes('SECURITY.md', `VoidSlate \`${version}\``);
+assertIncludes('SECURITY.md', `| ${version} | Yes |`);
+assertIncludes('SUPPORT.md', `currently \`${version}\``);
+assertIncludes('template/README.md', `voidslate-icons-${version}`);
+assertIncludes('screenshots/voidslate-syntax-screen.svg', `"${version}"`);
+assertIncludes('screenshots/voidslate-syntax-screen.svg', `voidslate@${version}`);
+assertIncludes('README copy.md', `voidslate-${version}.vsix`);
+assertIncludes('README copy.md', `"version": "${version}"`);
+NODE
+}
+
+plsr_extension_check() {
+  node - "${PLSR_ROOT}" <<'NODE'
+const fs = require('fs');
+const path = require('path');
+
+const root = process.argv[2];
+const readJson = (relativePath) =>
+  JSON.parse(fs.readFileSync(path.join(root, relativePath), 'utf8'));
+const exists = (relativePath) => fs.existsSync(path.join(root, relativePath));
+const fail = (message) => {
+  console.error(`[plsr] error: ${message}`);
+  process.exit(1);
+};
+const assert = (condition, message) => {
+  if (!condition) fail(message);
+};
+
+const packageJson = readJson('package.json');
+const contributes = packageJson.contributes || {};
+const themes = contributes.themes || [];
+const iconThemes = contributes.iconThemes || [];
+
+assert(packageJson.name === 'voidslate', 'package.json name must stay voidslate');
+assert(packageJson.publisher === 'mrakbook', 'package.json publisher must stay mrakbook');
+assert(packageJson.license === 'SEE LICENSE IN LICENSE.md', 'package.json license must point to LICENSE.md');
+assert(packageJson.license !== 'MIT', 'package.json must not use the old MIT license');
+assert(packageJson.repository?.url, 'package.json repository.url is required for Marketplace images');
+assert(packageJson.bugs?.url, 'package.json bugs.url is required');
+assert(packageJson.icon && exists(packageJson.icon), `extension icon is missing: ${packageJson.icon}`);
+assert(Array.isArray(packageJson.categories) && packageJson.categories.includes('Themes'), 'extension category must include Themes');
+assert(Array.isArray(packageJson.extensionKind) && packageJson.extensionKind.includes('ui'), 'theme extension should declare extensionKind ["ui"]');
+assert(packageJson.main === './extension.js', 'runtime entrypoint must be ./extension.js');
+assert(exists('extension.js'), 'extension.js runtime is required');
+assert(exists('activitybar-patcher.js'), 'activitybar-patcher.js runtime is required');
+assert(!packageJson.browser, 'VoidSlate extension must not declare a browser entrypoint');
+assert(Array.isArray(packageJson.activationEvents), 'activationEvents must be declared');
+assert(packageJson.activationEvents.includes('onStartupFinished'), 'activationEvents must include onStartupFinished');
+assert(packageJson.activationEvents.includes('onCommand:voidslate.applyActivityBarColors'), 'missing apply command activation');
+assert(packageJson.activationEvents.includes('onCommand:voidslate.removeActivityBarColors'), 'missing remove command activation');
+assert(
+  (contributes.commands || []).some((command) => command.command === 'voidslate.applyActivityBarColors'),
+  'missing VoidSlate apply Activity Bar colors command'
+);
+assert(
+  (contributes.commands || []).some((command) => command.command === 'voidslate.removeActivityBarColors'),
+  'missing VoidSlate remove Activity Bar colors command'
+);
+assert(themes.length > 0, 'at least one color theme contribution is required');
+assert(iconThemes.length > 0, 'at least one icon theme contribution is required');
+
+for (const theme of themes) {
+  assert(theme.label, 'theme contribution is missing label');
+  assert(['vs', 'vs-dark', 'hc-black', 'hc-light'].includes(theme.uiTheme), `${theme.label} has invalid uiTheme`);
+  assert(theme.path && exists(theme.path), `${theme.label} theme file is missing: ${theme.path}`);
+  const themeJson = readJson(theme.path);
+  assert(themeJson.name, `${theme.path} is missing name`);
+  assert(themeJson.type, `${theme.path} is missing type`);
+  assert(themeJson.colors && Object.keys(themeJson.colors).length > 0, `${theme.path} has no workbench colors`);
+  assert(Array.isArray(themeJson.tokenColors), `${theme.path} must include tokenColors`);
+}
+
+for (const iconTheme of iconThemes) {
+  assert(iconTheme.id, 'icon theme contribution is missing id');
+  assert(iconTheme.label, 'icon theme contribution is missing label');
+  assert(iconTheme.path && exists(iconTheme.path), `${iconTheme.label} icon theme file is missing: ${iconTheme.path}`);
+  const iconJson = readJson(iconTheme.path);
+  assert(iconJson.iconDefinitions && Object.keys(iconJson.iconDefinitions).length > 0, `${iconTheme.path} has no iconDefinitions`);
+}
+
+for (const requiredFile of ['README.md', 'CHANGELOG.md', 'LICENSE', '.vscodeignore']) {
+  assert(exists(requiredFile), `${requiredFile} is required for a VS Code extension package`);
+}
+
+const vscodeignore = fs.readFileSync(path.join(root, '.vscodeignore'), 'utf8');
+for (const pattern of ['.github/**', '.vscode/**', 'template/**', 'node_modules/**', 'dist/**', 'scripts/**', 'plsr', '*.vsix']) {
+  assert(vscodeignore.includes(pattern), `.vscodeignore must exclude ${pattern}`);
+}
+
+console.log('[plsr] VS Code extension manifest check passed');
+NODE
+}
+
+plsr_actions_check() {
+  node - "${PLSR_ROOT}" <<'NODE'
+const fs = require('fs');
+const path = require('path');
+
+const root = process.argv[2];
+const fail = (message) => {
+  console.error(`[plsr] error: ${message}`);
+  process.exit(1);
+};
+const assert = (condition, message) => {
+  if (!condition) fail(message);
+};
+const read = (relativePath) => {
+  const file = path.join(root, relativePath);
+  assert(fs.existsSync(file), `${relativePath} is required`);
+  return fs.readFileSync(file, 'utf8');
+};
+
+const ci = read('.github/workflows/ci.yml');
+const release = read('.github/workflows/release.yml');
+
+for (const snippet of [
+  'pull_request:',
+  'push:',
+  'main',
+  'master',
+  'workflow_dispatch:',
+  './plsr doctor',
+  './plsr ci check',
+  './plsr package --skip-check',
+  'actions/upload-artifact@v4',
+  'dist/*.vsix',
+]) {
+  assert(ci.includes(snippet), `.github/workflows/ci.yml must include ${snippet}`);
+}
+
+for (const snippet of [
+  'tags:',
+  'v*.*.*',
+  'workflow_dispatch:',
+  './plsr doctor',
+  './plsr ci release-gate',
+  './plsr package --skip-check',
+  'actions/upload-artifact@v4',
+  'dist/*.vsix',
+  'gh release',
+  '@vscode/vsce publish',
+  'VSCE_PAT',
+  'Tag $tag does not match package.json version $package_version',
+  'Requested version $version does not match package.json version $package_version',
+  'Release version must be semver x.y.z',
+]) {
+  assert(release.includes(snippet), `.github/workflows/release.yml must include ${snippet}`);
+}
+assert(!release.includes('git commit'), '.github/workflows/release.yml must not create version commits during CD');
+assert(!release.includes('plsr versions bump'), '.github/workflows/release.yml must release an already-versioned extension');
+
+console.log('[plsr] GitHub Actions workflow check passed');
+NODE
+}
+
+plsr_validate() {
+  npm run validate
+}
+
+plsr_ci_check() {
+  plsr_versions_check
+  plsr_extension_check
+  plsr_actions_check
+  plsr_validate
+}
+
+plsr_verify_vsix() {
+  local vsix_file="$1"
+  [[ -f "${vsix_file}" ]] || plsr_die "VSIX not found: ${vsix_file}"
+  command -v unzip >/dev/null 2>&1 || plsr_die "unzip is required to verify VSIX contents"
+
+  local entries
+  entries="$(unzip -Z1 "${vsix_file}")"
+
+  local required_entry
+  for required_entry in \
+    "extension/package.json" \
+    "extension/LICENSE" \
+    "extension/logo.png" \
+    "extension/extension.js" \
+    "extension/activitybar-patcher.js" \
+    "extension/activitybar/voidslate-activitybar-colors.css" \
+    "extension/themes/voidslate-color-theme.json" \
+    "extension/themes/voidslate-icons.json" \
+    "extension/screenshots/voidslate-syntax-screen.jpeg"; do
+    if ! grep -Fxq "${required_entry}" <<<"${entries}"; then
+      plsr_die "VSIX is missing required file: ${required_entry}"
+    fi
+  done
+
+  if ! grep -Fxq "extension/README.md" <<<"${entries}" && ! grep -Fxq "extension/readme.md" <<<"${entries}"; then
+    plsr_die "VSIX is missing required README"
+  fi
+  if ! grep -Fxq "extension/CHANGELOG.md" <<<"${entries}" && ! grep -Fxq "extension/changelog.md" <<<"${entries}"; then
+    plsr_die "VSIX is missing required changelog"
+  fi
+
+  local entry
+  while IFS= read -r entry; do
+    case "${entry}" in
+      extension/.github/*|extension/.vscode/*|extension/template/*|extension/node_modules/*|extension/dist/*|extension/scripts/*|extension/plsr|extension/.gitignore|extension/README\ copy.md|extension/CHANGELOG\ copy.md|extension/LICENSE\ copy|extension/README_FIRST.md)
+        plsr_die "VSIX contains non-extension packaging file: ${entry}"
+        ;;
+    esac
+  done <<<"${entries}"
+
+  plsr_log "VSIX content check passed: ${vsix_file}"
+}
+
+plsr_vsce_package() {
+  local out_file="$1"
+  if command -v vsce >/dev/null 2>&1; then
+    vsce package --out "${out_file}"
+  else
+    npx --yes @vscode/vsce package --out "${out_file}"
+  fi
+}
+
+plsr_package() {
+  local out_dir="${PLSR_ROOT}/dist"
+  local run_check=1
+  local verify=1
+  while [[ $# -gt 0 ]]; do
+    case "$1" in
+      --out-dir)
+        [[ $# -ge 2 ]] || plsr_die "--out-dir requires a value"
+        out_dir="$2"
+        shift 2
+        ;;
+      --out-dir=*)
+        out_dir="${1#*=}"
+        shift
+        ;;
+      --skip-check)
+        run_check=0
+        shift
+        ;;
+      --no-verify)
+        verify=0
+        shift
+        ;;
+      -h|--help)
+        printf 'Usage: ./plsr package [--out-dir <dir>] [--skip-check] [--no-verify]\n'
+        return 0
+        ;;
+      *)
+        plsr_die "unknown package option: $1"
+        ;;
+    esac
+  done
+
+  local version
+  version="$(plsr_current_version)"
+  mkdir -p "${out_dir}"
+
+  if [[ "${run_check}" == "1" ]]; then
+    plsr_ci_check
+  fi
+
+  local out_file="${out_dir%/}/voidslate-${version}.vsix"
+  plsr_vsce_package "${out_file}"
+
+  if [[ "${verify}" == "1" ]]; then
+    plsr_verify_vsix "${out_file}"
+  fi
+}
+
+plsr_package_check() {
+  local tmp_dir
+  tmp_dir="$(mktemp -d)"
+  plsr_package --out-dir "${tmp_dir}" --skip-check
+  rm -rf "${tmp_dir}"
+  plsr_log "package smoke check passed"
+}
+
+plsr_release_gate() {
+  plsr_ci_check
+  plsr_package_check
+}
+
+plsr_doctor() {
+  plsr_log "root: ${PLSR_ROOT}"
+  command -v node >/dev/null 2>&1 || plsr_die "node is required"
+  command -v npm >/dev/null 2>&1 || plsr_die "npm is required"
+  command -v npx >/dev/null 2>&1 || plsr_die "npx is required unless vsce is installed"
+  command -v unzip >/dev/null 2>&1 || plsr_die "unzip is required for VSIX verification"
+  if command -v vsce >/dev/null 2>&1; then
+    plsr_log "vsce: $(command -v vsce)"
+  else
+    plsr_log "vsce: not installed globally; npx @vscode/vsce will be used"
+  fi
+  plsr_versions_check
+  plsr_extension_check
+}
+
+plsr_versions_main() {
+  local subcommand="${1:-}"
+  shift || true
+
+  case "${subcommand}" in
+    current)
+      plsr_current_version
+      printf '\n'
+      ;;
+    check)
+      plsr_versions_check
+      ;;
+    bump)
+      local bump="${1:-}"
+      [[ -n "${bump}" ]] || plsr_die "versions bump requires major, minor, or patch"
+      shift || true
+      local dry_run=0
+      while [[ $# -gt 0 ]]; do
+        case "$1" in
+          --dry-run)
+            dry_run=1
+            shift
+            ;;
+          *)
+            plsr_die "unknown versions bump option: $1"
+            ;;
+        esac
+      done
+      plsr_set_version "$(plsr_bump_semver "$(plsr_current_version)" "${bump}")" "${dry_run}"
+      ;;
+    set)
+      local version="${1:-}"
+      [[ -n "${version}" ]] || plsr_die "versions set requires x.y.z"
+      shift || true
+      local dry_run=0
+      while [[ $# -gt 0 ]]; do
+        case "$1" in
+          --dry-run)
+            dry_run=1
+            shift
+            ;;
+          *)
+            plsr_die "unknown versions set option: $1"
+            ;;
+        esac
+      done
+      plsr_set_version "${version}" "${dry_run}"
+      ;;
+    -h|--help|'')
+      cat <<'EOF'
+Usage:
+  ./plsr versions current
+  ./plsr versions check
+  ./plsr versions bump <major|minor|patch> [--dry-run]
+  ./plsr versions set <x.y.z> [--dry-run]
+EOF
+      ;;
+    *)
+      plsr_die "unknown versions command: ${subcommand}"
+      ;;
+  esac
+}
+
+plsr_ci_main() {
+  local subcommand="${1:-}"
+  shift || true
+
+  case "${subcommand}" in
+    check)
+      plsr_ci_check
+      ;;
+    release-gate)
+      plsr_release_gate
+      ;;
+    -h|--help|'')
+      cat <<'EOF'
+Usage:
+  ./plsr ci check
+  ./plsr ci release-gate
+EOF
+      ;;
+    *)
+      plsr_die "unknown ci command: ${subcommand}"
+      ;;
+  esac
+}
+
+plsr_main() {
+  local command="${1:-}"
+  shift || true
+
+  case "${command}" in
+    doctor)
+      plsr_doctor
+      ;;
+    check)
+      plsr_ci_check
+      ;;
+    validate)
+      plsr_validate
+      ;;
+    extension-check)
+      plsr_extension_check
+      ;;
+    actions-check)
+      plsr_actions_check
+      ;;
+    version|versions)
+      plsr_versions_main "$@"
+      ;;
+    ci)
+      plsr_ci_main "$@"
+      ;;
+    package)
+      plsr_package "$@"
+      ;;
+    package-check)
+      plsr_package_check
+      ;;
+    -h|--help|'')
+      plsr_usage
+      ;;
+    *)
+      plsr_die "unknown command: ${command}"
+      ;;
+  esac
+}
+
+plsr_main "$@"
