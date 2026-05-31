@@ -143,24 +143,28 @@ assert(exists('samples/voidslate-syntax.ts'), 'missing syntax sample');
 assert(exists('activitybar/voidslate-activitybar-colors.css'), 'missing Activity Bar color CSS');
 assert(exists('activitybar/voidslate-custom-css-settings.json'), 'missing Activity Bar settings helper');
 
-const templatePackageJson = readJson('template/package.json');
-assert(
-  templatePackageJson.version === packageJson.version,
-  'template package version must match package.json'
-);
-assert(
-  templatePackageJson.license === packageJson.license,
-  'template package license must match package.json'
-);
+if (exists('template/package.json')) {
+  const templatePackageJson = readJson('template/package.json');
+  assert(
+    templatePackageJson.version === packageJson.version,
+    'template package version must match package.json'
+  );
+  assert(
+    templatePackageJson.license === packageJson.license,
+    'template package license must match package.json'
+  );
+}
 
 const rootLicense = fs.readFileSync(path.join(root, 'LICENSE'), 'utf8');
 const markdownLicense = fs.readFileSync(path.join(root, 'LICENSE.md'), 'utf8');
-const templateLicense = fs.readFileSync(path.join(root, 'template/LICENSE'), 'utf8');
-for (const [licenseName, licenseText] of [
+const licenseFiles = [
   ['LICENSE', rootLicense],
-  ['LICENSE.md', markdownLicense],
-  ['template/LICENSE', templateLicense]
-]) {
+  ['LICENSE.md', markdownLicense]
+];
+if (exists('template/LICENSE')) {
+  licenseFiles.push(['template/LICENSE', fs.readFileSync(path.join(root, 'template/LICENSE'), 'utf8')]);
+}
+for (const [licenseName, licenseText] of licenseFiles) {
   assert(
     licenseText.includes('PolyForm Noncommercial License 1.0.0'),
     `${licenseName} must use the PolyForm Noncommercial License`
