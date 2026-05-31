@@ -1,0 +1,50 @@
+name: CI
+
+on:
+  pull_request:
+  push:
+    branches:
+      - main
+      - master
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  validate:
+    name: Validate and Package
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Inspect extension toolchain
+        run: ./plsr doctor
+
+      - name: Run PLSR CI gate
+        run: ./plsr ci check
+
+      - name: Read extension version
+        id: version
+        run: echo "version=$(./plsr versions current)" >> "$GITHUB_OUTPUT"
+
+      - name: Package VSIX smoke check
+        run: ./plsr package --skip-check
+
+      - name: Upload VSIX artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: voidslate-${{ steps.version.outputs.version }}-vsix
+          path: dist/*.vsix
+          if-no-files-found: error

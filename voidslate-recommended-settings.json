@@ -1,0 +1,18 @@
+{
+  "workbench.colorTheme": "VoidSlate",
+  "workbench.iconTheme": "voidslate-icons",
+  "workbench.productIconTheme": "Default",
+  "window.titleBarStyle": "custom",
+  "editor.fontFamily": "Fira Code, Consolas, 'Courier New', monospace",
+  "editor.fontSize": 14,
+  "editor.fontWeight": "500",
+  "editor.lineHeight": 22,
+  "editor.tabSize": 2,
+  "editor.cursorBlinking": "blink",
+  "terminal.integrated.fontFamily": "Fira Code, Consolas, 'Courier New', monospace",
+  "terminal.integrated.fontSize": 14,
+  "files.autoSave": "off",
+  "vscode_custom_css.imports": [
+    "file:///Users/boris/lab/voidslate/activitybar/voidslate-activitybar-colors.css"
+  ]
+}
