@@ -197,7 +197,9 @@ plsr_set_version() {
   old_version="$(plsr_current_version)"
 
   plsr_write_json_version "${PLSR_PACKAGE_JSON}" "${version}" "${dry_run}"
-  plsr_write_json_version "${PLSR_TEMPLATE_PACKAGE_JSON}" "${version}" "${dry_run}"
+  if [[ -f "${PLSR_TEMPLATE_PACKAGE_JSON}" ]]; then
+    plsr_write_json_version "${PLSR_TEMPLATE_PACKAGE_JSON}" "${version}" "${dry_run}"
+  fi
   plsr_sync_text_version_references "${old_version}" "${version}" "${dry_run}"
   plsr_sync_changelog_heading "${version}" "${dry_run}"
   if [[ "${dry_run}" == "1" ]]; then
@@ -210,13 +212,16 @@ plsr_set_version() {
 plsr_versions_check() {
   local package_version template_version
   package_version="$(plsr_json_version "${PLSR_PACKAGE_JSON}")"
-  template_version="$(plsr_json_version "${PLSR_TEMPLATE_PACKAGE_JSON}")"
 
   plsr_require_semver "${package_version}"
-  plsr_require_semver "${template_version}"
 
-  if [[ "${package_version}" != "${template_version}" ]]; then
-    plsr_die "package.json (${package_version}) and template/package.json (${template_version}) versions differ"
+  if [[ -f "${PLSR_TEMPLATE_PACKAGE_JSON}" ]]; then
+    template_version="$(plsr_json_version "${PLSR_TEMPLATE_PACKAGE_JSON}")"
+    plsr_require_semver "${template_version}"
+
+    if [[ "${package_version}" != "${template_version}" ]]; then
+      plsr_die "package.json (${package_version}) and template/package.json (${template_version}) versions differ"
+    fi
   fi
 
   if [[ -f "${PLSR_CHANGELOG}" ]] && ! grep -Eq "^## ${package_version}$" "${PLSR_CHANGELOG}"; then
