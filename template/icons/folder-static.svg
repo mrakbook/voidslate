@@ -1,7 +1,0 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" width="32" height="32">
-  <path d="M3.2 8.2h9.7l2.45 3.1H29c.75 0 1.35.6 1.35 1.35v16c0 .75-.6 1.35-1.35 1.35H3.2c-.75 0-1.35-.6-1.35-1.35V9.55c0-.75.6-1.35 1.35-1.35z" fill="#101214" stroke="#252A2F" stroke-width="1"/>
-  <path d="M3.4 8.6h9.3l2.4 3H29v4.2H1.85v-6.2c0-.9.65-1 1.55-1z" fill="#00F5C8" opacity="0.26"/>
-  <rect x="3.8" y="14" width="26" height="15.5" rx="1.6" fill="#14171A" stroke="#00F5C8" stroke-width="1.15"/>
-  <rect x="5.6" y="17" width="4.1" height="2" rx="1" fill="#31FF69" opacity="0.9"/>
-  <text x="17" y="25.1" text-anchor="middle" font-family="Inter, Segoe UI, Arial, sans-serif" font-size="6.6" font-weight="850" letter-spacing="0.2" fill="#00F5C8">STA</text>
-</svg>
