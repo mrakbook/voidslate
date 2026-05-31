@@ -1,0 +1,2 @@
+# voidslate
+VoidSlate VSCode Theme
